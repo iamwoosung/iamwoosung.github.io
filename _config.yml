@@ -20,7 +20,7 @@
 lang:                  ko
 
 # The title of your blog. Used in the sidebar and the browser tab.
-title:                 Woosung
+title:                 Woosung Jo
 
 # A short description (~150 chars) of the page used for the meta description tag.
 # Can use markdown, but no more than one paragraph (enforced by `>`)
@@ -29,7 +29,8 @@ description:           >
   with a focus on personal sites that are meant to impress.
 
 # A shorter description for the sidebar.
-tagline:               Change `tagline` in `_config.yml`
+# tagline:               Change `tagline` in `_config.yml`
+tagline:               소프트웨어 엔지니어입니다.
 
 # A list of keywords for your blog
 keywords:              []
@@ -49,10 +50,10 @@ author:
 
 # Add links to the sidebar.
 menu:
-  - title:             Example
-    url:               /example/
-  - title:             Documentation
-    url:               /docs/
+  - title:             개발 기술
+    url:               /devskills/
+  - title:             톺아보기
+    url:               /indepth/
   - title:             About
     url:               /about/
 
@@ -67,7 +68,7 @@ legal:
     url:               /CHANGELOG/
 
 # This text will appear in a `<small>` tag in the footer of every page.
-copyright:             © 2024. All rights reserved.
+copyright:             © 2025. All rights reserved.
 
 # Format of the permalinks
 permalink:             /:categories/:year-:month-:day-:title/

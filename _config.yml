@@ -50,9 +50,9 @@ author:
 
 # Add links to the sidebar.
 menu:
-  - title:             개발 기술
-    url:               /devskills/
-  - title:             톺아보기
+  - title:             Computer Science
+    url:               /cs/
+  - title:             In-Depth
     url:               /indepth/
   - title:             About
     url:               /about/

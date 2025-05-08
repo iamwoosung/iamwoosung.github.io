@@ -3,14 +3,14 @@
 layout: list
 
 # The title of the tag's page.
-title: 톺아보기
+title: In-Depth
 
 # The name of the tag, used in a post's front matter (e.g. tags: [<slug>]).
 slug: indepth
 
 # (Optional) Write a short (~150 characters) description of this featured tag.
 description: >
-  톺아보기 시리즈입니다.
+  개인적인 궁금증에 한 Depth 더 상세히 학습한 개념과 내용을 기록합니다.
 # (Optional) You can disable grouping posts by date.
 # no_groups: true
 

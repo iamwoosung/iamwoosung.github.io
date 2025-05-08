@@ -10,7 +10,9 @@ hide_last_modified: true
 * toc
 {:toc .large-only}
 
-## 📌 개요
+<br><br><br><br><br>
+
+# 📌 개요
 
 <hr>
 
@@ -18,7 +20,7 @@ hide_last_modified: true
 
 <br><br><br><br><br>
 
-## 📌 프로세스(Process)와 스레드(Thread)
+# 📌 프로세스(Process)와 스레드(Thread)
 
 <hr>
 
@@ -40,7 +42,7 @@ hide_last_modified: true
 
 <br><br><br><br><br>
 
-## 📌 멀티 스레드란 무엇인가
+# 📌 멀티 스레드란 무엇인가
 
 <hr>
 
@@ -64,7 +66,7 @@ hide_last_modified: true
 
 <br><br><br><br><br>
 
-## 📌 언어별 스레드 비교와 파이썬 GIL
+# 📌 언어별 스레드 비교와 파이썬 GIL
 
 <hr>
 
@@ -85,7 +87,7 @@ P.S. 정확한 수치를 원한다면 CPU 성능을 낮추어 자원에 자체�
 
 <br>
 
-### ✨ Python 싱글 스레드
+## ✨ Python 싱글 스레드
 
 실행 시간: 4,500 ms
 
@@ -116,7 +118,7 @@ print(f"Time: { time.time() - start }")
 
 <br>
 
-### ✨ Python 멀티 스레드
+## ✨ Python 멀티 스레드
 
 실행 시간: 4,500 ms
 
@@ -154,7 +156,7 @@ print(len(result))
 
 <br>
 
-### ✨ Java 싱글 스레드
+## ✨ Java 싱글 스레드
 
 실행 시간: 4,600 ms
 
@@ -209,7 +211,7 @@ public class Main {
 
 <br>
 
-### ✨ Java 멀티 스레드
+## ✨ Java 멀티 스레드
 
 실행 시간: 3,500 ms
 
@@ -271,7 +273,7 @@ public class Main {
 
 <br>
 
-### ✨ 내용 정리
+## ✨ 내용 정리
 
 `Java`의 경우 `멀티 스레드`가 `싱글 스레드` 보다 확연히 빠르다. 
 `Python`의 경우 `멀티 스레드`와 `싱글 스레드`의 수행 속도가 거의 동일하다.
@@ -294,7 +296,7 @@ public class Main {
 
 <br><br><br><br><br>
 
-## 📌 파이썬 스레드의 활용
+# 📌 파이썬 스레드의 활용
 
 <hr>
 
@@ -324,7 +326,7 @@ Web, REST API 서버, 대용량 로그 생성 등의 개발 시 활용 가능하
 
 <br><br><br><br><br>
 
-## 📌 파이썬 병렬 처리
+# 📌 파이썬 병렬 처리
 
 <hr>
 
@@ -343,7 +345,7 @@ multiprocessing 모듈을 사용하여 하나의 프로그램에 다수 프로�
 
 <br>
 
-### ✨ Python 싱글 프로세스
+## ✨ Python 싱글 프로세스
 
 실행 시간: 4,500 ms
 
@@ -385,7 +387,7 @@ if __name__ == "__main__":
 
 <br>
 
-### ✨ Python 멀티 프로세스
+## ✨ Python 멀티 프로세스
 
 실행 시간: 3,800 ms
 
@@ -428,7 +430,7 @@ if __name__ == "__main__":
 
 <br><br><br><br><br>
 
-## 📌 결론
+# 📌 결론
 
 <hr>
 
@@ -437,7 +439,7 @@ if __name__ == "__main__":
 
 <br><br><br><br><br>
 
-## 📌 내용 추가
+# 📌 내용 추가
 
 <hr>
 
@@ -447,7 +449,7 @@ if __name__ == "__main__":
 
 <br><br><br><br><br>
 
-## 📌 참고 레퍼런스
+# 📌 References
 
 <hr>
 

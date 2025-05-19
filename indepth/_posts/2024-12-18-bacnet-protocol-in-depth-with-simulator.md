@@ -76,7 +76,7 @@ https://bacnet.org/ 에서 프로토콜 종류나 개발 예제를 자세히 제
 `백넷`으로 주고받는 데이터는 기기(공조기 등) 단위가 아닌, 
 기기 내부에 들어있는 센서(환기온도, 외기온도 등) 단위이다.
 
-![](https://velog.velcdn.com/images/iamwoosung/post/bad01a56-99a3-4820-9ff3-8d16b8e7d186/image.png)
+![](/assets/indepth/bacnet-protocol-indepth-with-simulator/image1.png)
 
 
 설비 업체는 DDC라 불리는 제어 장치에 공조기 같은 기기들을 물리적으로 한대 이상 연결한다. 
@@ -129,6 +129,7 @@ DDC는 서버 역할이고, 우리는 DDC에 `백넷` 프로토콜로 실시간 
 <br>
 
 **🍀 우선순위의 남용**
+
 백넷은 우선순위라는 기능이 있다. 장비보다 낮은 우선순위의 소프트웨어로는 제어가 불가하다.
 
 분명 필요한 기능이다. 대규모 현장이면 제어용 소프트웨어가 다수 개 연동되기 때문이다. 
@@ -195,7 +196,7 @@ Analog, Binary 오브젝트는 Input, Output, Value로 역할을 구분한다.
  
 <br>
 
-![](https://velog.velcdn.com/images/iamwoosung/post/6c4d376c-a696-4b40-952e-3ae00974d146/image.png)
+![](/assets/indepth/bacnet-protocol-indepth-with-simulator/image2.png)
 
 
 
@@ -212,19 +213,20 @@ Analog, Binary 오브젝트는 Input, Output, Value로 역할을 구분한다.
 
 ## ✨ 백넷 서버 시뮬레이터 프로그램
 [SCADA Engine](https://www.scadaengine.com/downloads.php?product=bacnet_simulator)에서 제공하는 30일 트라이얼 버전의 프로그램을 사용했다.
+
 ~~(라이센스 파일 삭제하면 트라이얼 기간 리셋 가능,,)~~
 
 <br>
 
 설치한 후 프로그램을 실행하면 기본으로 구성된 서버가 존재한다.
 
-![](https://velog.velcdn.com/images/iamwoosung/post/a9d06421-9d76-4994-aeff-4a6c29646c3f/image.png)
+![](/assets/indepth/bacnet-protocol-indepth-with-simulator/image3.png)
 
 <br><br><br>
 
 서버 > 우클릭 > Add Device를 선택하여 디바이스를 생성해 보자
 
-![](https://velog.velcdn.com/images/iamwoosung/post/fd8fcd67-387b-4328-a701-db1e6f3943d8/image.png)
+![](/assets/indepth/bacnet-protocol-indepth-with-simulator/image4.png)
 
 <br><br><br>
 
@@ -232,13 +234,13 @@ Analog, Binary 오브젝트는 Input, Output, Value로 역할을 구분한다.
 ** 정의한 디바이스 명과 ID로 서버에 바인딩된다. **
 디바이스 > 우클릭 > Add Object로 하위에 오브젝트를 생성해 보자
  
-![](https://velog.velcdn.com/images/iamwoosung/post/db115e56-8dd5-4cfa-84ce-33a9b703e68c/image.png)
+![](/assets/indepth/bacnet-protocol-indepth-with-simulator/image5.png)
 
 <br><br><br>
 
 다양한 오브젝트를 지원하는데 테스트 용으로 AI, AO, AV, DI, DO, DV를 만들어보자.
 
-![](https://velog.velcdn.com/images/iamwoosung/post/52fe7235-5881-4725-a68f-f7ece545deb4/image.png)
+![](/assets/indepth/bacnet-protocol-indepth-with-simulator/image6.png)
 
 <br><br><br>
 
@@ -248,7 +250,7 @@ Analog, Binary 오브젝트는 Input, Output, Value로 역할을 구분한다.
 PresentValue가 현재 값을 나타내는 속성인데, 변경할 수 있다.
 (Simulator Settings에서 랜덤, 증감, 감소 값으로 설정할 수 있다.)
 
-![](https://velog.velcdn.com/images/iamwoosung/post/d48fea81-ec1c-4806-9ea8-e8e2d21cc1bb/image.png)
+![](/assets/indepth/bacnet-protocol-indepth-with-simulator/image7.png)
 
 <br><br><br>
 
@@ -264,27 +266,27 @@ PresentValue가 현재 값을 나타내는 속성인데, 변경할 수 있다.
 - Port: `백넷`은 47808을 디폴트 포트로 사용한다. (47808 == BAC0)
 - Local endpoint: 피시에 IP가 다수 개 등록되어 있을 때, 검색할 대상 IP 대역이다.
 
-![](https://velog.velcdn.com/images/iamwoosung/post/7593539a-f301-42a7-98a3-5a4faa5ce8e7/image.png)
+![](/assets/indepth/bacnet-protocol-indepth-with-simulator/image8.png)
 
 <br><br><br>
 
 Start 하면 해당 포트와 IP 대역에서 검색된 백넷 디바이스들이 출력된다.
 (Start 시 클라이언트가 전송한 `Who-Is` 패킷에 `I-am` 패킷으로 응답한 디바이스 리스트)
 
-![](https://velog.velcdn.com/images/iamwoosung/post/346cc2f4-d776-415c-9630-b0c491fe4b3d/image.png)
+![](/assets/indepth/bacnet-protocol-indepth-with-simulator/image9.png)
 
 <br><br><br>
 
 디바이스 하나를 선택하면 하위에 어떤 오브젝트들이 포함되어 있는지 표출된다.
 
-![](https://velog.velcdn.com/images/iamwoosung/post/e8326482-5d82-4f9c-affd-afbbd009d200/image.png)
+![](/assets/indepth/bacnet-protocol-indepth-with-simulator/image10.png)
 
 <br><br><br>
 
 드래그 & 드롭한 오브젝트에 한하여, Polling 방식으로 값을 지속 갱신한다.
 우측에는 서버에서 설정된 상세 속성 정보와 밸류를 확인할 수 있다.
 
-![](https://velog.velcdn.com/images/iamwoosung/post/c04df3fe-b181-4554-ab55-5c987a752c45/image.png)
+![](/assets/indepth/bacnet-protocol-indepth-with-simulator/image11.png)
 
 
 <br><br><br><br><br>
@@ -345,13 +347,13 @@ Polling 이후, COV를 1시간마다 재신청하게끔 타이머 스레드를 �
 
 **🍀 AS-IS**
 
-![](https://velog.velcdn.com/images/iamwoosung/post/fb973cf4-00e6-4b5b-a8b7-bf90977243e5/image.jpg)
+![](/assets/indepth/bacnet-protocol-indepth-with-simulator/image12.jpg)
 
 <br>
 
 **🍀 TO-BE**
 
-![](https://velog.velcdn.com/images/iamwoosung/post/3afb2ff1-bc10-4393-a3ff-75a6430154bb/image.jpg)
+![](/assets/indepth/bacnet-protocol-indepth-with-simulator/image13.jpg)
 
 	
 <br><br><br>
@@ -361,7 +363,7 @@ COV를 지원하지 않는 설비 업체가 있다. (이유는 모르겠지만,,
 COV의 지원 여부를 확인하는 방법은 간단하다.
 COV 요청 패킷에 대한 응답 패킷이 Reject로 수신되는지 확인하면 된다. 
 (업체에게 문의하는 게 제일 빠르고 정확하긴 함)
-![](https://velog.velcdn.com/images/iamwoosung/post/9bc9c896-68f6-4b8a-ac5e-b9c71f905c9a/image.png)
+![](/assets/indepth/bacnet-protocol-indepth-with-simulator/image14.png)
 
 <br> 
 

@@ -30,7 +30,7 @@ description:           >
 
 # A shorter description for the sidebar.
 # tagline:               Change `tagline` in `_config.yml`
-tagline:               소프트웨어 엔지니어입니다.
+tagline:               소프트웨어 엔지니어
 
 # A list of keywords for your blog
 keywords:              []
@@ -54,8 +54,10 @@ menu:
     url:               /cs/
   - title:             In-Depth
     url:               /indepth/
-  - title:             About
-    url:               /about/
+  - title:             My Thoughts
+    url:               /thoughts/
+#  - title:             About
+#    url:               /about/
 
 # Add links to the footer.
 # Typically you'll want to link to your cookie- or privacy policy (if appliable), etc..
@@ -82,7 +84,7 @@ paginate_path:         /:num/
 # ---------------------------------------------------------------------------------------
 
 # This will use the gem `jekyll-theme-hydejack`, as defined in the sibling `Gemfile`.
-# theme: jekyll-theme-hydejack
+#theme: jekyll-theme-hydejack
 
 # You can uncomment `theme` above and replace it with `remote_theme` here iff you are using the 
 # `jekyll-remote-theme` plugin (which is the case when using the legacy GitHub Pages pipeline).

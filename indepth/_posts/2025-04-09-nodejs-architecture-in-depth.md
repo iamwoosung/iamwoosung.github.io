@@ -47,7 +47,7 @@ Node.js가 개발되며 javascript를 서버 언어로 실행할 수 있게 되�
 
 Node.js의 `Runtime`은 아래 요소들의 조합으로 이루어진다. 각각의 역할을 살펴보자. 
 
-![](https://velog.velcdn.com/images/iamwoosung/post/37079f01-a8a5-4fee-84b5-16cfd8a1cf0f/image.png)
+![](/assets/indepth/nodejs-architecture-indepth/image1.png)
 
 
 
@@ -66,7 +66,8 @@ CS 관점에서 `Runtime`의 역할은 바이너리로 변환된 코드가 실�
 
 아래에서 `V8 Engine` 동작 순서를 자세히 살펴보자.
 
-![](https://velog.velcdn.com/images/iamwoosung/post/d8a0e14d-d5e0-41a6-93db-230689f41341/image.png)
+![](/assets/indepth/nodejs-architecture-indepth/image2.png)
+
 
 
 1. `V8 Engine`에서 소스 코드를 `Parser`로 전달한다. 
@@ -115,7 +116,8 @@ libuv는 `OS`의 커널을 추상화하여 c++로 작성된 라이브러리이�
 
 ## ✨ Single thread의 동작 프로세스
 
-![](https://velog.velcdn.com/images/iamwoosung/post/894d801b-f81f-4f9e-979c-21f5a7559540/image.png)
+![](/assets/indepth/nodejs-architecture-indepth/image3.png)
+
 
 **Node.js는 어떻게 `Single thread`로 동작할 수 있을까?** 
 아래의 동작 프로세스를 보며 하나씩 확인해 보자
@@ -161,7 +163,8 @@ Node.js는 이벤트를 지향하는 `Event-Driven`으로 구성되어 있다.
 
 ## ✨ Event-driven의 정의
 
-![](https://velog.velcdn.com/images/iamwoosung/post/7ebc4246-d56c-49ab-bb0b-6921be98c765/image.png)
+![](/assets/indepth/nodejs-architecture-indepth/image4.png)
+
 
 `Event-driven`는 이벤트가 발생했을 때 정의되어 있는 `Event Handlers`가 실행되는 것이다. 
 
@@ -285,7 +288,8 @@ emitter.emit('test_event', 'tester');
 우측은 호출 함수에 제어권을 넘기지 않고 기존 함수를 계속 동작하는 `Non-blocking` 방식이다. 
 
 
-![](https://velog.velcdn.com/images/iamwoosung/post/0f7c158c-ee8b-4a51-8fc8-2864c5a66d33/image.png)
+![](/assets/indepth/nodejs-architecture-indepth/image5.png)
+
 
 
 <br><br><br>

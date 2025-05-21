@@ -10,7 +10,7 @@ slug: indepth
 
 # (Optional) Write a short (~150 characters) description of this featured tag.
 description: >
-  개인적인 궁금증에 한 Depth 더 상세히 학습한 개념과 내용을 기록합니다.
+  한 Depth 더 들어가서 톺아보기
 # (Optional) You can disable grouping posts by date.
 # no_groups: true
 

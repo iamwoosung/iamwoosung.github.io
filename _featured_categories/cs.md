@@ -10,7 +10,7 @@ slug: cs
 
 # (Optional) Write a short (~150 characters) description of this featured tag.
 description: >
-  소프트웨어를 다루며 겪었던 이슈 및 해결 과정과 학습 내용을 기록합니다. 
+  학습 및 개발 과정에서 얻은 인사이트 공유하기
 # (Optional) You can disable grouping posts by date.
 # no_groups: true
 

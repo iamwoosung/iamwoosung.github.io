@@ -152,10 +152,12 @@ if 조건:
 
 <br>
 
-2개의 원반을 옮기는 경우 3번의 동작이 필요하다.<br>
+2개의 원반을 옮기는 경우 3번의 동작이 필요했다.<br>
 **Move(2) = 3**이다.
 
-![](/assets/cs/reflective-thinking-expands-to-hanoi-tower/image4.jpg)
+---|---|
+![](/assets/cs/reflective-thinking-expands-to-hanoi-tower/image4.jpg) | ![](/assets/cs/reflective-thinking-expands-to-hanoi-tower/image5.jpg)
+![](/assets/cs/reflective-thinking-expands-to-hanoi-tower/image6.jpg) | ![](/assets/cs/reflective-thinking-expands-to-hanoi-tower/image7.jpg)
 
 <br><br><br>
 
@@ -168,8 +170,9 @@ if 조건:
 즉 **Move(3) = Move(2) + 1 + Move(2) = 7**과 같다. 
 
 
---|--|--|
-![](/assets/cs/reflective-thinking-expands-to-hanoi-tower/c3_1.jpg) | ![](/assets/cs/reflective-thinking-expands-to-hanoi-tower/c3_5.jpg) | ![](/assets/cs/reflective-thinking-expands-to-hanoi-tower/c3_8.jpg)
+--|--|
+![](/assets/cs/reflective-thinking-expands-to-hanoi-tower/c3_1.jpg) | ![](/assets/cs/reflective-thinking-expands-to-hanoi-tower/c3_4.jpg) 
+![](/assets/cs/reflective-thinking-expands-to-hanoi-tower/c3_5.jpg) | ![](/assets/cs/reflective-thinking-expands-to-hanoi-tower/c3_8.jpg)
 
 <br><br><br>
 

@@ -10,7 +10,7 @@ slug: cs
 
 # (Optional) Write a short (~150 characters) description of this featured tag.
 description: >
-  학습 및 개발 과정에서 얻은 인사이트 공유하기
+  개발 과정에서 학습한 내용과 인사이트 공유하기
 # (Optional) You can disable grouping posts by date.
 # no_groups: true
 

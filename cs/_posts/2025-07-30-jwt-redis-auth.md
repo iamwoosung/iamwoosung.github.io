@@ -242,7 +242,7 @@ Redis에 리프레시 토큰을 저장하여 빠른 I/O 처리로 토큰 검증 
 
 Fast API 서버를 오픈하고 Redis 설정을 호출한다. (DB Init 과정은 생략)
 
-``` Python
+``` python
 # main.py
 
 from fastapi import FastAPI
@@ -263,9 +263,10 @@ init_redis(app)
 
 ## ✨ Redis 설정
 
-<br> Redis 설정(`decode_responses=True`는 데이터를 문자열로 가져오는 설정이다.)
+<br> Redis 설정 <br>
+(`decode_responses=True`는 데이터를 문자열로 가져오는 설정이다.)
 
-``` Python
+``` python
 # app/core/redis_config.py
 
 from fastapi import FastAPI
@@ -302,7 +303,7 @@ def init_redis(app: FastAPI):
 
 ## ✨ Auth API 구현
 
-``` Python
+``` python
 # app/apis/auth.py
 
 router = APIRouter()
@@ -362,10 +363,8 @@ def logout_all_sessions(credentials: HTTPAuthorizationCredentials = Depends(bear
 Fast API는 요청이 들어오면 해당 경로(함수)를 확인하고 `Depends()`가 있으면 먼저 실행하여 의존성을 얻는다. 
 `Depends()` 안에 있는 함수의 결과값을 원래의 매개 변수로 전달한다. 
 
-<br>
-
-로그인 API를 예시로 로직을 설명하자면, 
-``` Python
+`Depends()` 로직을 로그인 API로 설명하자면, 
+``` python
 def login(login_data: LoginRequest, auth_service: AuthService = Depends(get_auth_service))
 ```
 1. `POST /login`과 같은 HTTP 요청을 받게 되면 `login_data: LoginRequest` 구문을 통해 Request body에 데이터가 정상적으로 들어왔는지 `LoginRequest` `Pydantic` 모델의 유효성을 판단한다. 
@@ -376,9 +375,9 @@ def login(login_data: LoginRequest, auth_service: AuthService = Depends(get_auth
 요약: <br>
 `LoginRequest` 클래스를 `Pydantic` 모델로 유효성을 검증하고, 유효하다면 `Depends`를 통해 `AuthService` 인스턴스를 생성 받는다.
 
-<br>
+<br><br>
 
-``` Python 
+``` python 
 # app/services/auth_service.py
 
 class AuthService:
@@ -426,7 +425,7 @@ class AuthService:
 ```
 
 
-``` Python
+``` python
 # app/services/token_service.py
 
 from datetime import timedelta

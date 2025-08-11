@@ -12,7 +12,7 @@ hide_last_modified: true
 
 <br><br><br><br><br>
 
-# 📌 Summary
+# 📌 Overview
 <hr>
 
 스터디에서 재귀 알고리즘 발표를 위해 `하노이의 탑` 문제를 학습하였는데, <br>
@@ -28,7 +28,7 @@ hide_last_modified: true
 하노이의 탑은 크기가 다른 원반들은 기둥 세 개에 옮기는 퍼즐 같은 놀이이다. <br>
 단, 원반은 하나씩만 옮길 수 있으며 작은 원반 위에 큰 원반을 올릴 수 없다. 
 
-![](/assets/cs/reflective-thinking-expands-to-hanoi-tower/image1.jpg)
+![](/assets/tech/reflective-thinking-expands-to-hanoi-tower/image1.jpg)
 
 <br><br><br>
 
@@ -50,7 +50,7 @@ hide_last_modified: true
 ```
 
 ---|---|
-![](/assets/cs/reflective-thinking-expands-to-hanoi-tower/image2.jpg)|![](/assets/cs/reflective-thinking-expands-to-hanoi-tower/image3.jpg)
+![](/assets/tech/reflective-thinking-expands-to-hanoi-tower/image2.jpg)|![](/assets/tech/reflective-thinking-expands-to-hanoi-tower/image3.jpg)
 
 <br><br><br>
 
@@ -65,8 +65,8 @@ hide_last_modified: true
 ```
 
 ---|---|
-![](/assets/cs/reflective-thinking-expands-to-hanoi-tower/image4.jpg) | ![](/assets/cs/reflective-thinking-expands-to-hanoi-tower/image5.jpg)
-![](/assets/cs/reflective-thinking-expands-to-hanoi-tower/image6.jpg) | ![](/assets/cs/reflective-thinking-expands-to-hanoi-tower/image7.jpg)
+![](/assets/tech/reflective-thinking-expands-to-hanoi-tower/image4.jpg) | ![](/assets/tech/reflective-thinking-expands-to-hanoi-tower/image5.jpg)
+![](/assets/tech/reflective-thinking-expands-to-hanoi-tower/image6.jpg) | ![](/assets/tech/reflective-thinking-expands-to-hanoi-tower/image7.jpg)
 
 <br><br><br>
 
@@ -85,10 +85,10 @@ hide_last_modified: true
 ```
 
 ---|---|
-![](/assets/cs/reflective-thinking-expands-to-hanoi-tower/c3_1.jpg) | ![](/assets/cs/reflective-thinking-expands-to-hanoi-tower/c3_2.jpg)
-![](/assets/cs/reflective-thinking-expands-to-hanoi-tower/c3_3.jpg) | ![](/assets/cs/reflective-thinking-expands-to-hanoi-tower/c3_4.jpg)
-![](/assets/cs/reflective-thinking-expands-to-hanoi-tower/c3_5.jpg) | ![](/assets/cs/reflective-thinking-expands-to-hanoi-tower/c3_6.jpg)
-![](/assets/cs/reflective-thinking-expands-to-hanoi-tower/c3_7.jpg) | ![](/assets/cs/reflective-thinking-expands-to-hanoi-tower/c3_8.jpg)
+![](/assets/tech/reflective-thinking-expands-to-hanoi-tower/c3_1.jpg) | ![](/assets/tech/reflective-thinking-expands-to-hanoi-tower/c3_2.jpg)
+![](/assets/tech/reflective-thinking-expands-to-hanoi-tower/c3_3.jpg) | ![](/assets/tech/reflective-thinking-expands-to-hanoi-tower/c3_4.jpg)
+![](/assets/tech/reflective-thinking-expands-to-hanoi-tower/c3_5.jpg) | ![](/assets/tech/reflective-thinking-expands-to-hanoi-tower/c3_6.jpg)
+![](/assets/tech/reflective-thinking-expands-to-hanoi-tower/c3_7.jpg) | ![](/assets/tech/reflective-thinking-expands-to-hanoi-tower/c3_8.jpg)
 
 <br><br><br><br><br>
 
@@ -156,8 +156,8 @@ if 조건:
 **Move(2) = 3**이다.
 
 ---|---|
-![](/assets/cs/reflective-thinking-expands-to-hanoi-tower/image4.jpg) | ![](/assets/cs/reflective-thinking-expands-to-hanoi-tower/image5.jpg)
-![](/assets/cs/reflective-thinking-expands-to-hanoi-tower/image6.jpg) | ![](/assets/cs/reflective-thinking-expands-to-hanoi-tower/image7.jpg)
+![](/assets/tech/reflective-thinking-expands-to-hanoi-tower/image4.jpg) | ![](/assets/tech/reflective-thinking-expands-to-hanoi-tower/image5.jpg)
+![](/assets/tech/reflective-thinking-expands-to-hanoi-tower/image6.jpg) | ![](/assets/tech/reflective-thinking-expands-to-hanoi-tower/image7.jpg)
 
 <br><br><br>
 
@@ -171,8 +171,8 @@ if 조건:
 
 
 --|--|
-![](/assets/cs/reflective-thinking-expands-to-hanoi-tower/c3_1.jpg) | ![](/assets/cs/reflective-thinking-expands-to-hanoi-tower/c3_4.jpg) 
-![](/assets/cs/reflective-thinking-expands-to-hanoi-tower/c3_5.jpg) | ![](/assets/cs/reflective-thinking-expands-to-hanoi-tower/c3_8.jpg)
+![](/assets/tech/reflective-thinking-expands-to-hanoi-tower/c3_1.jpg) | ![](/assets/tech/reflective-thinking-expands-to-hanoi-tower/c3_4.jpg) 
+![](/assets/tech/reflective-thinking-expands-to-hanoi-tower/c3_5.jpg) | ![](/assets/tech/reflective-thinking-expands-to-hanoi-tower/c3_8.jpg)
 
 <br><br><br>
 

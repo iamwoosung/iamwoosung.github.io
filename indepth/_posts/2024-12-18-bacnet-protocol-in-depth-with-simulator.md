@@ -12,7 +12,7 @@ hide_last_modified: true
 
 <br><br><br><br><br>
 
-# 📌 Summary
+# 📌 Overview
 <hr>
 나는 빌딩, 팩토리, 공항 등 대형 건물에서 사용하는 재난 모니터링 솔루션 개발 경험이 있다.
 건물에 설치되는 승강기, 소방, 조명 등 공종들과 연동하여 실시간 데이터를 관제해야 한다.
@@ -231,7 +231,7 @@ Analog, Binary 오브젝트는 Input, Output, Value로 역할을 구분한다.
 <br><br><br>
 
 아래와 같이 디바이스가 추가되는데, 현장에서 구축되는 하나의 DDC라고 이해하면 된다.
-** 정의한 디바이스 명과 ID로 서버에 바인딩된다. **
+<b>정의한 디바이스 명과 ID로 서버에 바인딩된다.</b>
 디바이스 > 우클릭 > Add Object로 하위에 오브젝트를 생성해 보자
  
 ![](/assets/indepth/bacnet-protocol-indepth-with-simulator/image5.png)

@@ -20,7 +20,7 @@
 lang:                  ko
 
 # The title of your blog. Used in the sidebar and the browser tab.
-title:                 Woosung Jo
+title:                 iamwoosung
 
 # A short description (~150 chars) of the page used for the meta description tag.
 # Can use markdown, but no more than one paragraph (enforced by `>`)
@@ -50,8 +50,8 @@ author:
 
 # Add links to the sidebar.
 menu:
-  - title:             Computer Science
-    url:               /cs/
+  - title:             Technology
+    url:               /tech/
   - title:             In-Depth
     url:               /indepth/
   - title:             My Diary
@@ -70,7 +70,7 @@ legal:
     url:               /CHANGELOG/
 
 # This text will appear in a `<small>` tag in the footer of every page.
-copyright:             © 2025. All rights reserved.
+copyright:             © 2025. iamwoosung All rights reserved.
 
 # Format of the permalinks
 permalink:             /:categories/:year-:month-:day-:title/

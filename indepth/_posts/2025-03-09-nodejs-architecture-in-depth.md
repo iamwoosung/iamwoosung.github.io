@@ -13,7 +13,7 @@ hide_last_modified: true
 
 <br><br><br><br><br>
 
-# 📌 Summary
+# 📌 Overview
 <hr>
 
 **`Runtime`, `Single thread`, `Event-driven`, `Non-blocking I/O`, `Event loop`** 개념 정리

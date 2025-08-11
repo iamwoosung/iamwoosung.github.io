@@ -148,7 +148,7 @@ SampleCode.cs(7,29): warning CS1998: 이 비동기 메서드에는 'await' 연�
         바인딩된 작업을 수행하십시오.
 ```
 
-![](/assets/cs/nodejs-dotnet-runtime-road-and-verify/image4.JPG)
+![](/assets/tech/nodejs-dotnet-runtime-road-and-verify/image4.JPG)
 
 
 <br><br><br>
@@ -361,8 +361,8 @@ app.listen(port, () => {
 
 구동된 `Node.js` 프로세스를 WinDbg에서 Attach 해보면 어떤 파일들을 참조하는지 확인할 수 있다.
 
-![](/assets/cs/nodejs-dotnet-runtime-road-and-verify/image1.JPG)
-![](/assets/cs/nodejs-dotnet-runtime-road-and-verify/image2.JPG)
+![](/assets/tech/nodejs-dotnet-runtime-road-and-verify/image1.JPG)
+![](/assets/tech/nodejs-dotnet-runtime-road-and-verify/image2.JPG)
 
 <br> 
 
@@ -395,7 +395,7 @@ app.listen(port, () => {
 
 동일하게 WinDbg에서 Attach 해보면 `.NET`과 관련한 파일들을 확인할 수 있다. <br>  `edge-js` 미포함 시에는 보이지 않던 clr 등의 파일들이 `.NET` 런타임과 관련한 파일이다. 
 
-![](/assets/cs/nodejs-dotnet-runtime-road-and-verify/image3.JPG)
+![](/assets/tech/nodejs-dotnet-runtime-road-and-verify/image3.JPG)
 
 <br>
 

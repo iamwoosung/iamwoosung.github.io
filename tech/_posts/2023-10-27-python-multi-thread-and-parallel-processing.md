@@ -32,7 +32,7 @@ hide_last_modified: true
 - OS로부터 CPU, Memory 등의 자원을 할당받고 관리된다.
 - 고유한 Process ID를 갖는다.
 (작업 관리자의 세부 정보 탭에서 프로세스 및 ID 확인이 가능하다.)
-![](/assets/cs/python-multi-thread-and-parallel-processing/image1.png)
+![](/assets/tech/python-multi-thread-and-parallel-processing/image1.png)
 
 <br>
 
@@ -57,7 +57,7 @@ hide_last_modified: true
 
 이를 각각 **`순차 실행(Sequential)`**과 **`병렬 실행(Concurrent)`**이라고 한다.
 
-![](/assets/cs/python-multi-thread-and-parallel-processing/image2.jpg)
+![](/assets/tech/python-multi-thread-and-parallel-processing/image2.jpg)
 
 
 
@@ -83,7 +83,7 @@ hide_last_modified: true
 
 P.S. 정확한 수치를 원한다면 CPU 성능을 낮추어 자원에 자체적인 부하와 제약을 주고 시험할 수 있다.
 제어판 → 하드웨어 및 소리 → 전원 옵션 → 전원 관리 옵션 설정 편집 → 고급 전원 관리 옵션 설정 변경
-![](/assets/cs/python-multi-thread-and-parallel-processing/image3.png)
+![](/assets/tech/python-multi-thread-and-parallel-processing/image3.png)
 
 <br>
 
@@ -291,7 +291,7 @@ public class Main {
 
 (GIL은 기회가 된다면 별도 게시물에서 다룰 예정)
 
-![](/assets/cs/python-multi-thread-and-parallel-processing/image4.png)
+![](/assets/tech/python-multi-thread-and-parallel-processing/image4.png)
 
 
 <br><br><br><br><br>
@@ -316,7 +316,7 @@ public class Main {
 
 즉, `멀티 스레드`에서 사용 중인 `스레드`가 대기 상태로 빠지면 다른 `스레드`의 작업을 수행하게 되는 것이다. 
 
-<img src="/assets/cs/python-multi-thread-and-parallel-processing/image5.jpg" width="30%">
+<img src="/assets/tech/python-multi-thread-and-parallel-processing/image5.jpg" width="30%">
 
 
 디스크가 파일을 읽고 쓰거나 네트워크 카드(NIC)가 송/수신할 때와 같이, 
@@ -445,7 +445,7 @@ if __name__ == "__main__":
 
 (2024-07-12) 내용 추가: GIL 사용을 선택 사항으로 변경 예정
 
-![](/assets/cs/python-multi-thread-and-parallel-processing/image6.png)
+![](/assets/tech/python-multi-thread-and-parallel-processing/image6.png)
 
 <br><br><br><br><br>
 

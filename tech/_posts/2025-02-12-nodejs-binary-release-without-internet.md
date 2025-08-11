@@ -145,7 +145,7 @@ npm run build
 
 정상적으로 패키징이 완료되면 `outputPath` 디렉터리에 바이너리(.exe) 파일이 생성된다.
 
-![](/assets/cs/nodejs-binary-release-without-internet/image1.png)
+![](/assets/tech/nodejs-binary-release-without-internet/image1.png)
 
 
 <br>
@@ -155,8 +155,8 @@ npm run build
 `Release`된 바이너리를 실행하면 `CLI`가 팝업 되고 `express` 서버가 구동되었다는 내용이 출력된다. <br>
 다음으로 브라우저에서 `GET` 메서드의 엔드 포인트에 접속해 보면 정상적으로 값이 리턴되는 것을 확인할 수 있다.
 
-![](/assets/cs/nodejs-binary-release-without-internet/image2.png)
-![](/assets/cs/nodejs-binary-release-without-internet/image3.png)
+![](/assets/tech/nodejs-binary-release-without-internet/image2.png)
+![](/assets/tech/nodejs-binary-release-without-internet/image3.png)
 
 <br><br><br>
 
@@ -201,7 +201,7 @@ npm run build
 누군가 [Github](https://github.com/vercel/pkg-fetch/releases)에 `pkg` 개발 Assets을 업로드해 주었다. <br>
 여기서 본인 환경에 맞는 `node-version-os-bit` 포맷 파일을 다운로드하자
 
-![](/assets/cs/nodejs-binary-release-without-internet/image4.png)
+![](/assets/tech/nodejs-binary-release-without-internet/image4.png)
 
 <br>
 
@@ -226,7 +226,7 @@ npm run build
 
 다시 패키징 해보면 `outputPath` 디렉터리에 바이너리(.exe) 파일이 생성된다.
 
-![](/assets/cs/nodejs-binary-release-without-internet/image1.png)
+![](/assets/tech/nodejs-binary-release-without-internet/image1.png)
 
 <br>
 
@@ -234,8 +234,8 @@ npm run build
 
 팝업 되는 `CLI`에서  `express` 서버 구동을 확인하고 브라우저에서 접속해 보면 정상 동작하는 것을 확인할 수 있다.
 
-![](/assets/cs/nodejs-binary-release-without-internet/image2.png)
-![](/assets/cs/nodejs-binary-release-without-internet/image3.png)
+![](/assets/tech/nodejs-binary-release-without-internet/image2.png)
+![](/assets/tech/nodejs-binary-release-without-internet/image3.png)
 
 <br><br><br><br><br>
 

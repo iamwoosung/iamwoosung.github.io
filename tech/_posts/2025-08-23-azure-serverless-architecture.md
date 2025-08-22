@@ -1,8 +1,9 @@
-﻿---
+---
 layout: post
 title: Azure Functions와 Azure Service Bus(MQ)로 서버리스 아키텍처 구축하기
 description: >
   클라우드의 개념과 Azure를 활용한 서버리스 아키텍처 구축에 대한 포스팅입니다.
+
 sitemap: true
 hide_last_modified: true
 ---
@@ -317,5 +318,6 @@ Gmail이나 MS-Office가 `SaaS`에 해당한다.
 <br><br><br>
  
 ## ✨ Azure Portal에서 서비스 생성
+
 
 (작성 예정)

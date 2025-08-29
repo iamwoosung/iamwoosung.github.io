@@ -2,7 +2,7 @@
 layout: post
 title: 성능 테스트로 견고한 서버 애플리케이션 개발하기(With Artillery)
 description: >
-  Artillery로 서버 애플리케이션의 성능 테스테 방법에 대한 포스팅입니다.
+  Artillery로 서버 애플리케이션의 성능 테스트 방법에 대한 포스팅입니다.
 sitemap: true
 hide_last_modified: true
 ---
@@ -16,7 +16,18 @@ hide_last_modified: true
 
 <hr>
 
-실제로 
+서비스 개발에서 빠질 수 없는 것이 테스트이다. 
+완성된 결과물에서 예외가 발생하지는 않는지, 
+동시 몇 명의 사용자까지 수용할 수 있는지를 검증하기 위해 테스트를 진행해야 한다. 
+
+테스트를 위해서 어떠한 상황에서 서버에 부하가 발생하고, 
+부하가 발생하는 근본적인 원인이 무엇인지, 
+이를 어떻게 개선할 수 있는지 알아야 한다. 
+
+성능 테스트와 관련하여 학습한 전반적인 내용과 실제 Artilery를 사용한 테스트 내용을 기록한다. 
+
+
+
 
 <br><br><br><br><br>
 
@@ -175,7 +186,7 @@ Artillery: 1.7.9
 ## ✨ Artillery란?
 
 [Artillery](https://www.artillery.io/)는 간단하면서 효과적인 성능 테스트 목적의 오픈 소스 라이브러리이다. 
-`REST API`를 비롯한 `GraphQL`, `WebSocket` 등 다양한 프토콜을 지원하며 
+`REST API`를 비롯한 `GraphQL`, `WebSocket` 등 다양한 프로토콜을 지원하며 
 `Azure`, `AWS`와 같은 클라우드 기반 서버리스 환경에 테스트를 적용할 수도 있어 확장성이 높다. 
 
 테스트 결과로 생성되는 로우 데이터를 리포트 형식으로 출력해서 시각화할 수 있다. 

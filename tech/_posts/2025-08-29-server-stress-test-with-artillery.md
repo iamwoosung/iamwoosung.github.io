@@ -258,4 +258,332 @@ artillery dino
 
 <br><br>
 
+### 🌊 테스트 서버 작성
+
+간단하게 서버를 구성했다. `login`과 `login-delay` 두 개의 API를 구성했고 `login-delay`는 응답 전 3초의 지연이 발생한다.
+
+``` javascript
+// index.js
+const express = require('express');
+const app = express();
+const port = 8080;
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+
+
+app.post('/login', (req, res) => {
+    const { id, pw } = req.body; 
+    if (!id || !pw) return res.status(400).json({ message: 'ID 또는 PW 미입력' });
+    console.log(`ID: ${id}, PW: ${pw}`);
+    res.status(200).json({ message: '로그인 성공'});
+});
+
+
+
+app.post('/login-delay', (req, res) => {
+  const { id, pw } = req.body;
+    if (!id || !pw) return res.status(400).json({ message: 'ID 또는 PW 미입력' });
+    setTimeout(() => {
+        res.status(200).json({ message: '지연 로그인 성공'});
+        console.log(`/login-delay API 응답 완료 - ID: ${id}, PW: ${pw}`);
+    }, 3000);
+});
+
+
+
+
+app.listen(port, () => {
+  console.log(`서버 시작`);
+});
+```
+
+<br>
+
+서버 구동
+
+```
+node index.js
+```
+
+<br><br>
+
 ### 🌊 테스트 스크립트 작성
+
+<br>
+
+테스트 스크립트를 작성한다. 
+
+``` yaml
+# login_test.yaml
+config:
+  target: "http://localhost:8080" 
+  phases:
+    # 1단계: /login API 부하 테스트 (60초 동안 초당 10명)
+    - duration: 60
+      arrivalRate: 10
+      name: "Phase 1: Direct Login Test"
+      scenario: "User Login Scenario"
+
+      
+    # 2단계: /login-delay API 부하 테스트 (60초 동안 초당 10명)
+    # 첫 번째 단계가 끝난 후 이어서 실행됨
+    - duration: 60
+      arrivalRate: 10
+      name: "Phase 2: Delayed Login Test"
+      scenario: "User Login with Delay Scenario"
+
+
+  # users.csv 파일에서 테스트 데이터를 읽어옴
+  payload:
+    path: "./users.csv"
+    fields:
+      - "id"
+      - "pw"
+    skipHeader: true
+    loop: true 
+
+scenarios:
+  # 첫 번째 시나리오: /login API 호출
+  - name: "User Login Scenario"
+    flow:
+      - post:
+          url: "/login"
+          json:
+            id: "{{ id }}"
+            pw: "{{ pw }}"
+          capture:
+            json: "$.message"
+            as: "login_response_message"
+
+  # 두 번째 시나리오: /login-delay API 호출
+  # 이 시나리오를 사용하는 가상 사용자가 Phase 2에서 생성됨
+  - name: "User Login with Delay Scenario"
+    flow:
+      - post:
+          url: "/login-delay"
+          json:
+            id: "{{ id }}"
+            pw: "{{ pw }}"
+          capture:
+            json: "$.message"
+            as: "login_delay_response_message"
+```
+
+<br>
+
+스크립트에서 각 구문이 어떤 역할인지 살펴보자. 
+- `target`: Artillery가 부하를 보낼 목표 서버의 기본 URL
+- `phases`: 테스트를 단계별로 어떻게 진행할지 정의
+- `duration`: 현재 단계가 지속될 시간을 초 단위로 정의
+- `arrivalRate`: 초당 몇 명의 새로운 가상 사용자(VU)를 생성할지 정의
+- `scenarios`: 각각의 시나리오 흐름을 정의(미입력 시 랜덤으로 API 호출)
+
+<br>
+
+`path: "./users.csv"` 구문을 통해 파라미터로 사용할 CSV 데이터를 임포트 할 수 있다.
+
+```
+// users.csv
+id,pw
+user1,pass1
+user2,pass2
+user3,pass3
+user4,pass4
+user5,pass5
+```
+
+<br>
+
+따라서 위 스크립트는 첫 번째 단계에서 60초 동안 초당 10명의 가상 사용자를 생성하여 `/login` API에 부하를 가하고, 두 번째 단계에서 60초 동안 초당 10명의 가상 사용자를 생성하여 3초 지연이 있는 `/login-delay` API에 부하를 가한다. 
+
+<br><br>
+
+### 🌊 테스트 진행
+
+아래와 같은 커맨드로 테스트를 진행할 수 있다. 
+시험 결과에 대한 로우 데이터를 `login_test_report.json`으로 출력한다. 
+
+```
+artillery run login_test.yaml --output login_test_report.json 
+```
+
+<br>
+
+정상이라면 아래와 같이 출력되다가 테스트 종료 시 로그 파일 생성을 알려준다.
+
+```
+Started phase 0 (Phase 1: Direct Login Test), duration: 60s @ 12:47:52(+0900) 2025-09-02
+Report @ 12:48:02(+0900) 2025-09-02
+Elapsed time: 10 seconds
+  Scenarios launched:  99
+  Scenarios completed: 92
+  Requests completed:  92
+  Mean response/sec: 10.01
+  Response time (msec):
+    min: 0
+    max: 1040
+    median: 999.5
+    p95: 1012.8
+    p99: 1029.9
+  Codes:
+    200: 92
+
+... 
+
+Log file: login_test_report.json
+```
+
+<br>
+
+로우 데이터를 확인해도 테스트 결과를 이해하기 어려우니 시각화해서 확인해 보자. 
+
+```
+artillery report login_test_report.json
+```
+
+![](/assets/tech/server-stress-test-with-artillery/image1.png)
+
+`Test duration`을 통해 130초 동안 테스트가 진행되었다는 것을 알 수 있고, 1200번의 요청에 대한 응답이 모두 HTTP 200으로 도착하였다. 차트에서는 아래 정보를 확인할 수 있다. 
+
+- `Min`: 테스트 기간 동안 발생한 모든 요청 중 서버가 가장 빨리 응답한 시간
+- `Max`: 테스트 기간 동안 발생한 모든 요청 중 서버가 가장 느리게 응답한 시간
+- `Median`: 모든 응답 시간을 오름차순으로 정렬했을 때, 정확히 가운데에 위치하는 값
+- `P95 (95th Percentile)`: 모든 응답 시간을 오름차순으로 정렬했을 때, 하위 95%에 해당하는 요청들이 이 시간 안에 응답을 완료했다는 의미
+- `P99 (99th Percentile)`: 모든 응답 시간을 오름차순으로 정렬했을 때, 하위 99%에 해당하는 요청들이 이 시간 안에 응답을 완료했음을 의미
+
+<br>
+
+![](/assets/tech/server-stress-test-with-artillery/image2.png)
+
+- `Latency At Intervals`: 테스트 진행하는 동안 요청에 대한 `Latency` 
+- `Concurrent users`: 특정 시점에 서버에 요청을 보내고 있는 가상 사용자의 수(서버에 요청되었지만 아직 응답을 받지 못한 가상 사용자 수)
+- `Mean RPS`: 테스트 기간 동안 1초에 평균적으로 몇 개의 요청이 서버에 성공적으로 전달되었는지를 의미
+
+<br><br><br><br><br>
+
+# 📌 테스트를 통한 성능 개선 예시
+
+<hr>
+
+## ✨ 캐시로 Latency 최적화하기
+
+극단적인 예시로 사용자 ID를 입력받아서 해시를 5만 번 돌린 후 반환하는 API가 있다고 치자. 
+
+``` javascript
+// index.js
+const crypto = require('crypto');
+
+
+app.post('/login-hash', (req, res) => {
+  const { id } = req.body;
+  if (!id) return res.status(400).json({ message: 'ID 미입력' });
+  
+  let hash = id;
+  for (let i = 0; i < 50000; i++) hash = crypto.createHash('sha256').update(hash).digest('hex');
+  console.log(`해시 결과: ${hash}`);
+  res.status(200).json({ processed_id: hash });
+});
+```
+
+``` yaml
+# login_test.yaml
+config:
+  target: "http://localhost:8080"
+  phases:
+    - duration: 60
+      arrivalRate: 10
+      name: "Phase: Direct Login Hash Test"
+      scenario: "User Login-hash Scenario"
+
+
+  # users.csv 파일에서 테스트 데이터를 읽어옴
+  payload:
+    path: "./users.csv"
+    fields:
+      - "id"
+    skipHeader: true
+    loop: true 
+
+scenarios:
+  - name: "User Login Scenario"
+    flow:
+      - post:
+          url: "/login-hash"
+          json:
+            id: "{{ id }}"
+          capture:
+            json: "$.message"
+            as: "login_response_message"
+```
+
+![](/assets/tech/server-stress-test-with-artillery/image3.png)
+
+시험 결과를 리포트로 출력해 보면 모든 요청이 정상적으로 평균 80 m/s 이내에 응답하였다는 것을 확인할 수 있다. 
+
+
+<br><br>  
+
+이번에는 해시 반복 횟수를 10만 번으로 늘려보자. 
+
+``` javascript
+// index.js
+const crypto = require('crypto');
+
+
+app.post('/login-hash', (req, res) => {
+  const { id } = req.body;
+  if (!id) return res.status(400).json({ message: 'ID 미입력' });
+  
+  let hash = id;
+  for (let i = 0; i < 100000; i++) hash = crypto.createHash('sha256').update(hash).digest('hex');
+  console.log(`해시 결과: ${hash}`);
+  res.status(200).json({ processed_id: hash });
+});
+```
+
+![](/assets/tech/server-stress-test-with-artillery/image4.png)
+
+시험 결과를 리포트로 출력해 보면 `Latency`의 `P99`가 10초 이상이며, 테스트 1분 경과 후에는 응답이 출력되지 않는 것을 확인할 수 있다.  
+이는 서버에 부하로 인한 `Time Out`이 발생하였기 때문이다. 
+
+<br><br>
+
+해시를 반복하는 구문이 병목 구간이라는 가설을 발굴했다. 
+이제 캐시를 도입하여 이를 개선해 보자. 
+
+``` javascript
+// index.js
+const hashCache = new Map(); 
+
+app.post('/login-hash', (req, res) => {
+  const { id } = req.body;
+  if (!id) return res.status(400).json({ message: 'ID 미입력' });
+
+  if (hashCache.has(id)) {
+    const cachedHash = hashCache.get(id);
+    console.log(`해시 결과: ${cachedHash}`);
+    return res.status(200).json({ processed_id: cachedHash });
+  }
+  
+  let hash = id;
+  for (let i = 0; i < 100000; i++) hash = crypto.createHash('sha256').update(hash).digest('hex');
+  hashCache.set(id, hash);
+  console.log(`해시 결과: ${cachedHash}`);
+  res.status(200).json({ processed_id: hash });
+});
+```
+
+![](/assets/tech/server-stress-test-with-artillery/image5.png)
+
+요청받은 이력이 있는 사용자 ID라면 기존에 계산했던 해시 값을 반환하도록 캐시를 도입했다. 
+그 결과 `Latency`가 점차 줄어드는 것을 확인할 수 있다. 
+(실전에서는 런타임 메모리에 저장하는 방식이 아닌, `Redis` 등 제3자 서비스에 캐시를 구성해야 한다.)
+
+<br><br><br><br><br>
+
+# 📌 References
+🔗 [Node.js Artillery](https://node-js.tistory.com/36)<br>
+🔗 [Node.js Artillery](https://poleved.tistory.com/217)<br>
+🔗 [Artillery(테이블링 테크블로그)](https://techblog.tabling.co.kr/artillery%EB%A5%BC-%EC%9D%B4%EC%9A%A9%ED%95%9C-%EB%B6%80%ED%95%98-%ED%85%8C%EC%8A%A4%ED%8A%B8-9d1f6bb2c2f5)<br>

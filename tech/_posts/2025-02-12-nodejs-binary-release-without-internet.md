@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Node.js 폐쇄망에서 Binary Release 하기
+title: Node.js를 폐쇄망에서 바이너리로 릴리즈하기
 description: >
   pkg 모듈을 통해 폐쇄망에서 Node.js를 바이너리(.exe) 파일로 릴리즈하였고, 이를 위한 의존성 파일 및 라이브러리 설정 방법에 대한 포스팅입니다.
 sitemap: true

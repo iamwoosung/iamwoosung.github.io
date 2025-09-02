@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Node.js에서 .NET 런타임 로드하고 검증하기
+title: Node.js 환경에서 .NET 런타임 로드하고 검증하기
 description: >
   Node.js에서 edge-js 라이브러리를 통한 .NET 런타임 로드 및 검증과 C# 코드 호출 방법에 대한 포스팅입니다.
 sitemap: true

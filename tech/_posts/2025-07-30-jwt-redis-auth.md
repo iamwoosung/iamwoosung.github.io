@@ -1,6 +1,6 @@
 ---
 layout: post
-title: JWT + Redis 조합으로 구현하는 사용자 인증
+title: JWT & Redis 조합으로 구현하는 사용자 인증
 description: >
   JWT와 Redis 조합으로 사용자 Auth를 구현한 방법에 대한 포스팅입니다.
 

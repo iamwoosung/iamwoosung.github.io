@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 성능 테스트로 견고한 서버 애플리케이션 개발하기(With Artillery)
+title: Artillery를 이용한 성능 테스트로 견고한 서버 애플리케이션 개발하기
 description: >
   Artillery로 서버 애플리케이션의 성능 테스트 방법에 대한 포스팅입니다.
 sitemap: true

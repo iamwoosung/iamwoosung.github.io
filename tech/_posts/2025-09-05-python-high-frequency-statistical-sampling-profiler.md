@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Python 3.15 버전에서 업데이트된 프로파일러 시용해 보기
+title: Python 3.15 버전에서 업데이트된 샘플링 프로파일러 사용해 보기
 description: >
   Python 3.15 버전부터 업데이트된 샘플링 프로파일러의 기능과 동작 방식에 대한 포스팅입니다.
 sitemap: true
@@ -17,7 +17,7 @@ hide_last_modified: true
 <hr>
 
 `Python 3.15` 부터 추가되는 샘플링 프로파일링을 어떻게 활용하는지, 
-`cProfile` 등 기존 결정론적 프로파일링 도구들과 비교했을 때, 구체적으로 어떤 점들이 개선되었는지를 기록한다. 
+`cProfile` 등 기존 결정론적 프로파일링 도구들과 비교했을 때 구체적으로 어떤 점들이 개선되었는지를 기록한다. 
 
 <br><br><br><br><br>
 

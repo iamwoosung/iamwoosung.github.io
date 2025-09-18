@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Azure Functions + Azure Service Bus(MQ)로 서버리스 아키텍처 구축하기
+title: Azure Functions & Azure Service Bus(MQ)로 서버리스 아키텍처 구축하기
 description: >
   클라우드의 개념과 Azure를 활용한 서버리스 아키텍처 구축에 대한 포스팅입니다.
 

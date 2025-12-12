@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Python 3.15 버전에서 업데이트된 샘플링 프로파일러 사용해 보기
+title: Python 3.15 버전에서 추가된 샘플링 프로파일러 사용해 보기
 description: >
   Python 3.15 버전부터 업데이트된 샘플링 프로파일러의 기능과 동작 방식에 대한 포스팅입니다.
 sitemap: true
@@ -58,9 +58,9 @@ hide_last_modified: true
 
 # 📌 cProfile을 이용한 프로파일링
 
-`Python 3.15` 이전까지는 내장 모듈인 `cProfile`을 이용하여 프로파일링 하는 것이 일반적이다. 
+`Python 3.15` 이전까지는 내장 모듈인 `cProfile`을 이용하여 프로파일링 하는 것이 일반적이었다. 
 `cProfile`은 결정론적 프로파일링(Deterministic Profiling) 방식으로 작동한다.
-프로그램이 실행되는 동안 모든 함수 호출, 함수 반환, 예외 발생 등 주요 이벤트를 하나도 놓치지 않고 추적하여 상세한 통계를 기록하는데, 
+결정론적 프로파일링 기법은 프로그램이 실행되는 동안 모든 함수 호출, 함수 반환, 예외 발생 등 주요 이벤트를 하나도 놓치지 않고 추적하여 상세한 통계를 기록하는데, 
 함수 자체의 실행 시간인 `tottime`와 함수가 호출된 시점부터 종료될 때까지 걸린 전체 시간인 `cumtime` 두 가지를 핵심 항목으로 사용한다. 
 
 
@@ -71,7 +71,7 @@ hide_last_modified: true
 우선 프로파일링 대상 코드를 살펴보자. 
 `HTTP GET`으로 아이템 ID를 입력받아 해당하는 아이템 정보를 반환하는 간단한 API이다. 
 
-``` Python 
+``` py 
 # main.py
 @app.get("/items/{item_id}", response_model=ResponseModel)
 async def get_info(item_id: str) -> Dict[str, str]:
@@ -98,7 +98,7 @@ async def get_info(item_id: str) -> Dict[str, str]:
 > `cProfile` 모듈은 비동기 함수의 프로파일링을 지원하지 않는다. 
 따라서 프로파일링 대상인 비동기 함수 `get_data_from_api`를 호출하기 위한 래퍼(Wrapper) 함수로 `run_async_profiling`를 생성해 주었다.
 
-``` Python
+``` py 
 # profiling.py
 from src.database.db import get_data_from_api
 from cProfile import Profile
@@ -165,7 +165,7 @@ stats.print_stats()
 
 이번에는 함수의 부하를 가정하고 함수를 `return` 하기 전 지연을 설정해 보았다.
 
-``` Python
+``` py 
 # db.py
 import asyncio
 import random
@@ -221,13 +221,33 @@ async def get_data_from_api(item_id: str) -> dict:
 
 # 📌 Python 3.15의 샘플링 프로파일링
 
-(3.15 출시 시 이어서 작성 예정)
-
-`Python 3.15`부터 `profile.sample`이 새롭게 추가되었다. 
+`Python 3.15`부터 PEP 799를 통해 `profile.sample`이 새롭게 추가되었다. 
 [공식 문서](https://docs.python.org/3.15/whatsnew/3.15.html)에서는 High frequency statistical sampling profiler 즉 <b>고주파 통계 샘플링 프로파일러</b>로 소개되었다. 
 
 <br>
 
 기존에 사용되던 결정론적 프로파일러인 `profile`, `cProfile`과 달리 `profile.sample`는 실행되는 프로세스에서 주기적으로 모든 함수 호출의 스택 추적을 캡처한다. 
-이러한 접근 방식은 오버헤드가 거의 없는 동시에 최대 1,000,000Hz의 샘플링 속도로 현재까지 `Python`에서 가장 빠른 샘플링 프로파일러 기법이라고 한다.
+이러한 접근 방식은 오버헤드가 거의 없는 동시에 최대 1,000,000Hz의 샘플링 속도로 현재까지 `Python`에서 가장 빠른 샘플링 프로파일러 기법이라고 한다. 
+`profile.sample`의 특징은 다음과 같다. 
+- 저비용: 실행 속도에 거의 영향을 주지 않아 프로덕션 환경에서도 사용하기 적합
+- 통계적 접근: 모든 호출을 기록하지 않고 주기적으로 스냅샷을 찍어 병목 구간 등을 파악
+- 사용법 (CLI): 코드를 수정할 필요 없이 터미널에서 모듈을 실행하는 방식
+
+<br>
+
+정리해보면, `profile.sample`은 프로그램 실행에 직접적인 관여를 하지 않는 방식이다.
+이유는 프로그램의 실행 속도에 영향을 주지 않기 위해서일 것이다. 
+이러한 개념이 기존 `Python`의 프로파일러 모듈 `cProfile`와 차별점이라 생각된다. 
+
+<br>
+
+실행 시간이 1,000 m/s인 함수가 있을 때, 
+ - `cProfile`은 그 함수에 직접적으로 관여하여 실행 시간과 리소스를 측정한다. 
+ - 반면 `profile.sample`은 함수에 직접적인 관여를 하지 않고, 함수의 실행 중인 상태를 주기적인 스냅샷을 통해 측정한다. 
+ - 고주파의 의미는 샘플링 주기, 즉 스냅샷의 주기가 엄청나게 짧다는 것이다. 
+ - 1,000,000Hz라는 수치는 1초에 100만번의 스냅샷을 찍는다가 아니라, CPU가 100만번 동작할 때 스냅샷을 1번 찍어라는 의미일 것이다.
+
+![](/assets/tech/python-sampling-profiler/image1.png)
+
+<br><br><br>
 

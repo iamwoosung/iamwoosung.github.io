@@ -42,7 +42,6 @@ hide_last_modified: true
 
 각각 어떤 차이점이 있는지 알아보자.
 
-<img src="./image1.webp">
 ![](/assets/tech/azure-serverless-architecture/image1.webp)
 
 출처: [WhaTap](https://www.whatap.io/bbs/board.php?bo_table=blog&wr_id=226&sca=IT+%EC%86%8C%EC%8B%9D&utm_term=&utm_campaign=%5B2507%5DPmax_InquiryRemarketing_KR&utm_source=adwords&utm_medium=ppc&hsa_acc=6431792263&hsa_cam=22745151037&hsa_grp=&hsa_ad=&hsa_src=x&hsa_tgt=&hsa_kw=&hsa_mt=&hsa_net=adwords&hsa_ver=3&gad_source=1&gad_campaignid=22741457468&gbraid=0AAAAADlRry6jWss0DmTw1uqpFv1kMu45X&gclid=EAIaIQobChMIzsv0wtmGjwMVR1wPAh32lxcZEAAYASAAEgLe_fD_BwE)
@@ -239,7 +238,7 @@ Gmail이나 MS-Office가 `SaaS`에 해당한다.
 
 <br><br>
 
-일반적인 서버 아키텍쳐에서는 위 프로세스 모두를 한 개 서버가 처리해야 한다. 당연하게도 정비 요청이 늘어남에 따라 서버의 부하도 증가할 것이다. 
+일반적인 서버 아키텍처에서는 위 프로세스 모두를 한 개 서버가 처리해야 한다. 당연하게도 정비 요청이 늘어남에 따라 서버의 부하도 증가할 것이다. 
 
 <br><br>
 
@@ -317,6 +316,304 @@ Gmail이나 MS-Office가 `SaaS`에 해당한다.
 
 <br><br><br>
  
-## ✨ Azure Portal에서 서비스 생성
+## ✨ Azure 배포
 
-(작성 예정)
+`Azure Functions`, `Azure Service Bus` 등의 서비스 생성은 [Azure Portal](https://portal.azure.com/#home)에서 가능하다. 
+`Functions` 사용은 이번이 처음이었는데 배포에서 우여곡절이 정말 많았다. 
+
+처음에는 `Portal`에서 `Functions`을 생성하고 VS Code에서 코드를 배포하니 성공이라고 표시되었으나, `Portal`에서는 서비스가 반영되지 않았다. 
+다른 방법으로 시도하기 위해 `Functions` 서비스를 `VS Code`에서 생성 후 배포하니 서비스는 등록되지만 서버 실행이 되지 않았다. 
+두 번째 상황은 환경 변수 설정 미스로 명확한 내 잘못이었지만 원인을 파악하기 정말 어려웠고 시간도 많이 소요되었다. 
+(`VM`처럼 콘솔 확인을 할 수 있는 것도 아니고.. 로그 파일 생성을 할 수 있는 것도 아니니 말이다.)
+
+뭐 어찌 되었거나 구글과 GPT의 도움으로 VS Code를 통해 성공적인 배포를 할 수 있었다.
+
+- 개발은 Python 3.13과 FastAPI를 사용
+- 배포 시 파일명은 function_app.py로 고정
+- 필요 라이브러리는 requirements.txt에 작성 
+
+<br><br>
+
+### 🌊 사용자 요청을 Service Bus 푸시하기 위한 Functions
+
+아래는 사용자의 요청을 `Service Bus`에 전달하기 위한 `Funtions`이다. 
+요청을 `process-request-queue`에 푸시한다. 
+웹으로부터 입력받는 것까지 시험하기 위해 `Pub-Sub`도 추가로 구성하였는데 생략해도 무방하다. 
+
+``` py
+# function_app.py 
+from typing import Union
+from fastapi import FastAPI
+from dto.question import QuestionRequest
+from azure.messaging.webpubsubservice.aio import WebPubSubServiceClient
+from azure.core.credentials import AzureKeyCredential
+from azure.servicebus.aio import ServiceBusClient
+from azure.servicebus import ServiceBusMessage
+from fastapi.middleware.cors import CORSMiddleware
+from motor.motor_asyncio import AsyncIOMotorClient 
+
+import azure.functions as func
+import os
+import uuid
+import json
+
+
+fast_app = FastAPI()
+fast_app.add_middleware(
+    CORSMiddleware, 
+    allow_origins=["*"], 
+    allow_methods=["*"], 
+    allow_headers=["*"]
+)
+
+# DB 연동
+db_client = AsyncIOMotorClient(os.environ['DB_CONNECTION_URL'])
+db = db_client['']
+
+# Fast API 오픈
+# Pub-Sub 연동
+# Service Bus 연동
+app = func.AsgiFunctionApp(app=fast_app, http_auth_level=func.AuthLevel.ANONYMOUS) 
+pubsub_client = WebPubSubServiceClient(endpoint=os.environ['PUBSUB_CONNECTION_URL'], 
+                                       hub=os.environ['PUBSUB_HUB'], 
+                                       credential=AzureKeyCredential(os.environ['PUBSUB_KEY']))
+servicebus_client = ServiceBusClient.from_connection_string(conn_str=os.environ['SERVICEBUS_CONNECTION_URL'], logging_enable=True)
+
+@fast_app.get("/channel-id")
+async def get_channel_id():
+    return {"channel_id": str(uuid.uuid4())} 
+
+@fast_app.post("/question")
+async def send_question(request: QuestionRequest):
+    question_data = {
+        "channel_id": request.channel_id, 
+        "content": request.content, 
+        "type": "question"
+    }
+
+    # 입력을 DB에 누적    
+    result = await db.messages.insert_one(question_data)
+    question_data['_id'] = str(question_data['_id'])
+
+    # 요청을 process-request-queue에 푸시
+    async with servicebus_client:
+        sender = servicebus_client.get_queue_sender(queue_name="process-request-queue")
+
+        async with sender:
+            message = ServiceBusMessage(json.dumps(question_data))
+            await sender.send_messages(message)
+
+    return str(result.inserted_id)
+
+# token 발행용 API
+@fast_app.get("/pubsub/token")
+async def read_root(channel_id: str):
+    return await pubsub_client.get_client_access_token(groups=[channel_id], minutes_to_expire=5, roles=['webpubsub.joinLeaveGroup.' + channel_id])
+    
+```
+
+<br><br>
+
+### 🌊 Service Bus에 푸시된 요청을 처리하기 위한 Functions
+
+아래 `Functions`는 `process-request-queue`의 구독 트리거 방식으로 생성하였다. 
+따라서 위에서 요청이 푸시될 때마다 서버가 실행되어 요청을 처리할 수 있다.
+이후 결과를 `process-response-queue`에 다시 푸시한다. 
+
+``` py 
+import azure.functions as func
+import logging
+from openai import OpenAI
+from azure.servicebus.aio import ServiceBusClient
+from azure.servicebus import ServiceBusMessage
+
+import os
+import json
+
+app = func.FunctionApp()
+
+servicebus_client = ServiceBusClient.from_connection_string(conn_str=os.environ['SERVICEBUS_CONNECTION_URL'], logging_enable=True)
+
+# 트리거 방식
+@app.service_bus_queue_trigger(arg_name="msg", queue_name="process-request-queue",
+                               connection="SERVICEBUS_CONNECTION_URL") 
+async def process_request(msg: func.ServiceBusMessage):
+    
+    message = json.loads(msg.get_body().decode('utf-8'))
+    
+    answer_data = {
+        "channel_id": message['channel_id'], 
+        "content": '결과 반환', 
+        "type": "answer"
+    }
+
+    # 요청에 대한 처리 결과를 process-response-queue에 푸시
+    async with servicebus_client:
+        sender = servicebus_client.get_queue_sender(queue_name="process-response-queue")
+
+        async with sender:
+            message = ServiceBusMessage(json.dumps(answer_data))
+            await sender.send_messages(message)
+
+    logging.info(response.output_text)
+```
+
+<br><br>
+
+### 🌊 처리된 요청을 사용자에게 전달하기 위한 Functions
+
+요청에 대한 결과값이 `process-response-queue`에 푸시되면 해당 내용을 `Pub-Sub`으로 사용자에게 전달한다. 
+
+``` py
+import azure.functions as func
+import logging
+import json
+import os
+
+from azure.messaging.webpubsubservice.aio import WebPubSubServiceClient
+from azure.core.credentials import AzureKeyCredential
+from motor.motor_asyncio import AsyncIOMotorClient 
+
+app = func.FunctionApp()
+db_client = AsyncIOMotorClient(os.environ['DB_CONNECTION_URL'])
+db = db_client['']
+
+pubsub_client = WebPubSubServiceClient(endpoint=os.environ['PUBSUB_CONNECTION_URL'], 
+                                       hub=os.environ['PUBSUB_HUB'], 
+                                       credential=AzureKeyCredential(os.environ['PUBSUB_KEY']))
+
+# 트리거 방식
+@app.service_bus_queue_trigger(arg_name="msg", queue_name="process-response-queue",
+                               connection="SERVICEBUS_CONNECTION_URL") 
+
+# 처리된 요청이 process-response-queue에 푸시되면 
+# 그 내용을 Pub-Sub으로 사용자에게 전달
+async def process_response_function(msg: func.ServiceBusMessage):
+    response = json.loads(msg.get_body().decode('utf-8'))
+    response['_id'] = str(response['_id'])
+    await db.messages.insert_one(response)
+    await pubsub_client.send_to_group(group=response['channel_id'], message=response)
+```
+
+<br><br>
+
+### 🌊 사용자용 프론트에서 Pub-Sub 호출
+
+아래는 사용자용 프론트에서 `Azure` 서비스를 호출하기 위한 통신단 코드이다.
+
+``` javascript
+
+function getChannelId() {
+    return $.ajax({
+        url: API_URL + '/channel-id', 
+        type: 'GET', 
+        dataType: 'json'
+    })
+}
+
+function getPubSubToken(channelId) {
+    return $.ajax({
+        url: API_URL + '/pubsub/token?channel_id=' + channelId, 
+        type: 'GET', 
+        dataType: 'json'
+    })
+}
+
+function connectWebSocket(channelId, token) {
+    const WEB_SOCKET_URL = "pubsub 주소" + token;
+    const pubsubClient = new WebSocket(WEB_SOCKET_URL, 'json.webpubsub.azure.v1');
+    pubsubClient.onopen = function(event) {
+    console.log('Azure websocket connect');
+
+    pubsubClient.send(
+        JSON.stringify({
+            type: 'joinGroup', 
+            group: channelId
+        }))
+    };
+
+    pubsubClient.onmessage = function(event) {
+        let message = JSON.parse(event.data);
+
+        if (!message.data || message.data.content === "") {
+            return;
+        }
+
+        $('#chat-box').append('<p class="other-message">' + message.data.content + '</p>');
+        $(this).val('');
+        $('#chat-box').scrollTop($('#chat-box')[0].scrollHeight);
+    }
+}
+
+
+
+$(document).ready(function() {
+    getChannelId().then(response => {
+        CHANNEL_ID = response.channel_id
+        console.log(CHANNEL_ID)
+        return getPubSubToken(CHANNEL_ID)
+    }).then(response => {
+        const token = response.token
+        connectWebSocket(CHANNEL_ID, token)
+    });
+
+    $('#message-input').keydown(function(event) {
+      if (event.isComposing || event.keyCode === 229) {
+            return;
+        }
+        if (event.key === 'Enter') {
+            var message = $(this).val();
+            if (message.trim() !== '') {
+
+                $('#chat-box').append('<p class="my-message">' + message + '</p>');
+                $(event.target).val('');
+                $('#chat-box').scrollTop($('#chat-box')[0].scrollHeight);
+
+                $.ajax({
+                    url: API_URL + '/question', 
+                    type: 'POST', 
+                    contentType: 'application/json', 
+                    data: JSON.stringify({
+                        channel_id: CHANNEL_ID, 
+                        content: message
+                    }), 
+                    success: function(response) {
+                        
+                    }, 
+                    error: function(xhr, status, error) {
+                        console.log(error)
+                    }
+                })
+            }
+        }
+    });
+});
+```
+
+<br><br><br><br><br>
+
+# 📌 후기
+
+`Azure`를 통해 서버리스 아키텍처를 구현해 보았다. 
+개발 및 구축을 진행하다 보니 처음 기획했던 아키텍처에서 변경사항이 발생하였다. 
+사용자용 UI를 추가하면서 프론트단과 `Functions`를 연동하기 위한 `Pub-Sub`이 추가되었고, 
+운용 및 관리 편의성을 고민하다 보니 `Service Bus`를 요청용, 응답용 두개로 구분하게 되었다. 
+사실 기존 아키텍처대로 구성했어도 육안으로 보았을 때 크게 달라진 점은 없었을 것이다. 
+단지 서비스를 관리해야 하는 엔지니어의 입장에서 더 나은 선택이지 않을까 라고 판단했을 뿐이다. 
+
+그리고 `Functions`나 `Pub-Sub`은 선수 지식 없이 맨땅에 헤딩하면서 구축하였는데 공식 문서에 이론 설명은 상세했지만 실제 구축을 어떻게 해야 하는지에 대한 설명이 부족하다고 느껴졌고 워낙 관련된 자료가 없어서 조금의 삽질과 어려움이 있었다. 
+`Pub/Sub` 패턴이나 `Functions`의 동작 원리 같은 부분들을 직접 경험하며 배우는 게 최고인 거 같다!.. 
+또한 `Azure`는 전반적으로 구축이 효율적이고 시간 대비 성능이 좋다고 생각한다. 구성이나 모니터링하기도 편하다. 
+
+다만 IDE와 같은 툴에서의 Deploy는 개선되었으면 하는 바람이다. 
+오류에 대한 원인 파악이 너무 어렵다. 
+작업 중간에 오류가 나서 기존 서비스가 빠그라진다면 어느정도 숙달된 사람이 아니고서야 서비스를 처음부터 새로 구축하는 게 빠를 정도이다. 
+
+뭐.. 일부 아쉬운 점도 있었지만 
+`Azure`와 같은 클라우드는 개발자가 운영 부담을 줄이고 문제 해결에 집중할 수 있는 기회를 준다. 
+개인적으로 아직 경험하지 못한 클라우드 서비스 기능들이 많은데, 
+다음에는 `Azure`가 아닌 `AWS`를 사용해 보고 후기를 작성해 보고자 한다.
+다른 이유는 없고 경험하지 못한 다양한 것들을 써보고 싶어서이다. 
+
+끝. 🫡
+

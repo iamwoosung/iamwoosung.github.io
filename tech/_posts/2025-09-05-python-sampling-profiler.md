@@ -5,6 +5,7 @@ description: >
   Python 3.15 버전부터 업데이트된 샘플링 프로파일러의 기능과 동작 방식에 대한 포스팅입니다.
 sitemap: true
 hide_last_modified: true
+tags: [Python, Profiling]
 ---
 
 * toc
@@ -251,3 +252,4 @@ async def get_data_from_api(item_id: str) -> dict:
 
 <br><br><br>
 
+## ✨ 샘플링 프로파일러 사용해 보기

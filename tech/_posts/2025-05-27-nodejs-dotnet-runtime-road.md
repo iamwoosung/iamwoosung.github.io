@@ -5,6 +5,7 @@ description: >
   Node.js에서 edge-js 라이브러리를 통한 .NET 런타임 로드 및 검증과 C# 코드 호출 방법에 대한 포스팅입니다.
 sitemap: true
 hide_last_modified: true
+tags: [Node.js, ".NET", "C#", CS]
 ---
 
 * toc

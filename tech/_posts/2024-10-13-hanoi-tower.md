@@ -5,6 +5,7 @@ description: >
   재귀를 활용한 하노이의 탑 풀이와 일반항 도출 방법에 대한 포스팅입니다.
 sitemap: true
 hide_last_modified: true
+tags: [Algorithm, CS]
 ---
 
 * toc

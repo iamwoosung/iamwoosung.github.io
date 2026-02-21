@@ -6,6 +6,7 @@ description: >
 
 sitemap: true
 hide_last_modified: true
+tags: [Bitcoin, Blockchain, CS]
 ---
 
 * toc

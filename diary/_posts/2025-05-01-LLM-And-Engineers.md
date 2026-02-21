@@ -5,6 +5,7 @@ description: >
   LLM 등장과 엔지니어로서의 고찰 포스팅입니다.
 sitemap: true
 hide_last_modified: true
+tags: [Diary, LLM]
 ---
 
 * toc

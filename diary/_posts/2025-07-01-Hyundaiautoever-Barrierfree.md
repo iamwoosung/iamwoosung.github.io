@@ -5,6 +5,7 @@ description: >
   2025 현대오토에버에서 지원하는 배리어프리 앱 개발 콘테스트에 참가하였고 2차 선정 심사까지의 회고 포스팅입니다.
 sitemap: true
 hide_last_modified: true
+tags: [Hyundai, Contest]
 ---
 
 * toc

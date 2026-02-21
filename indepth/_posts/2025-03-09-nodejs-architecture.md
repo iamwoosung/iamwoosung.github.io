@@ -5,6 +5,7 @@ description: >
   Node.js의 아키텍쳐와 동작 원리에 대한 포스팅입니다.
 sitemap: true
 hide_last_modified: true
+tags: [Node.js, CS]
 ---
 
 * toc

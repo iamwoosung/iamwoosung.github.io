@@ -39,3 +39,55 @@ a {
     font-family : "Noto Sans KR" !important;
     font-weight: 400 !important;
 }
+
+.post-list-item {
+  list-style: none;
+  margin-bottom: 0.6rem;
+}
+
+.post-list-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.post-list-title {
+  flex: 1;
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.post-list-date {
+  flex-shrink: 0;
+  font-size: 0.8rem;
+}
+
+.post-list-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin-top: 0.35rem;
+}
+
+.post-list-tag {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 400;
+  color: var(--accent-color, rgb(79, 177, 186));
+  background-color: rgba(79, 177, 186, 0.1);
+  border: 1px solid rgba(79, 177, 186, 0.3);
+  border-radius: 4px;
+  padding: 0.15rem 0.55rem;
+  line-height: 1.6;
+  text-decoration: none;
+  transition: background-color 0.15s, border-color 0.15s;
+
+  &:hover {
+    background-color: rgba(79, 177, 186, 0.25);
+    border-color: rgba(79, 177, 186, 0.6);
+    text-decoration: none;
+  }
+}

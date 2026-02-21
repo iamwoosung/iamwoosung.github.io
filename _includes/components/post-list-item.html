@@ -1,0 +1,16 @@
+{% assign post = include.post %}
+{% assign format = include.format | default:site.data.strings.date_formats.related_post | default:"%d %b %Y" %}
+
+<li class="post-list-item">
+  <div class="post-list-row">
+    <a href="{{ post.url | relative_url }}" class="flip-title post-list-title"><span>{{ post.title }}</span></a>
+    <time class="post-list-date faded fine" datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date:format }}</time>
+  </div>
+  {% if post.tags.size > 0 %}
+    <div class="post-list-tags">
+      {% for tag_slug in post.tags %}
+        <a href="/tags/?tag={{ tag_slug | url_encode }}" class="post-list-tag">{{ tag_slug }}</a>
+      {% endfor %}
+    </div>
+  {% endif %}
+</li>

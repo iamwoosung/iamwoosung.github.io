@@ -5,6 +5,7 @@ description: >
   백넷 프로토콜 학습, 개발, 운영 경험에 대한 포스팅입니다.
 sitemap: true
 hide_last_modified: true
+tags: [BACnet, Protocol, Simulator, IoT]
 ---
 
 * toc

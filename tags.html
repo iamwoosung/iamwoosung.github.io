@@ -1,0 +1,66 @@
+---
+layout: page
+title: Tags
+sitemap: false
+---
+
+<div id="tag-page-container">
+  <h2 id="tag-heading" class="hr-bottom"></h2>
+  <ul id="tag-post-list" class="related-posts"></ul>
+  <p id="tag-empty" style="display:none" class="faded">이 태그에 해당하는 포스팅이 없습니다.</p>
+</div>
+
+<script id="all-posts-data" type="application/json">
+[{% for post in site.posts %}{"title":{{ post.title | jsonify }},"url":{{ post.url | relative_url | jsonify }},"date":"{{ post.date | date: '%d %b %Y' }}","tags":{{ post.tags | jsonify }}}{% unless forloop.last %},{% endunless %}{% endfor %}]
+</script>
+
+<script>
+(function () {
+  function getTagParam() {
+    return new URLSearchParams(window.location.search).get('tag');
+  }
+
+  function renderTagPage() {
+    var tag     = getTagParam();
+    var heading = document.getElementById('tag-heading');
+    var list    = document.getElementById('tag-post-list');
+    var empty   = document.getElementById('tag-empty');
+
+    if (!heading || !list || !empty) return;
+
+    if (!tag) {
+      heading.textContent = '태그를 선택해주세요.';
+      return;
+    }
+
+    var posts    = JSON.parse(document.getElementById('all-posts-data').textContent);
+    var filtered = posts.filter(function (p) {
+      return Array.isArray(p.tags) && p.tags.indexOf(tag) > -1;
+    });
+
+    heading.textContent = tag;
+    list.innerHTML = '';
+
+    if (filtered.length === 0) {
+      empty.style.display = '';
+    } else {
+      empty.style.display = 'none';
+      filtered.forEach(function (post) {
+        var li = document.createElement('li');
+        li.className = 'h4';
+        li.innerHTML =
+          '<a href="' + post.url + '" class="flip-title"><span>' + post.title + '</span></a>' +
+          '<time class="faded fine">' + post.date + '</time>';
+        list.appendChild(li);
+      });
+    }
+  }
+
+  renderTagPage();
+
+  var pushStateEl = document.getElementById('_pushState');
+  if (pushStateEl) {
+    pushStateEl.addEventListener('hy-push-state-after', renderTagPage);
+  }
+})();
+</script>

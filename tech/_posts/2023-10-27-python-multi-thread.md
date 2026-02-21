@@ -5,6 +5,7 @@ description: >
   파이썬의 멀티 스레드 동작 방식과 병렬 처리 방법에 대한 포스팅입니다.
 sitemap: true
 hide_last_modified: true
+tags: [Python, CS]
 ---
 
 * toc

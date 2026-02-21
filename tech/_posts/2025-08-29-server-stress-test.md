@@ -5,6 +5,7 @@ description: >
   Artillery로 서버 애플리케이션의 성능 테스트 방법에 대한 포스팅입니다.
 sitemap: true
 hide_last_modified: true
+tags: [Artillery, Stress Test, Server, Node.js]
 ---
 
 * toc

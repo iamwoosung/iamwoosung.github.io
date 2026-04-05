@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Python 3.15 버전에서 추가된 샘플링 프로파일러 사용해 보기
+title: Python 3.15 버전에서 추가된 샘플링 프로파일러 사용해 보기 (작성중)
 description: >
   Python 3.15 버전부터 업데이트된 샘플링 프로파일러의 기능과 동작 방식에 대한 포스팅입니다.
 sitemap: true
@@ -225,6 +225,11 @@ async def get_data_from_api(item_id: str) -> dict:
 `Python 3.15`부터 PEP 799를 통해 `profile.sample`이 새롭게 추가되었다. 
 [공식 문서](https://docs.python.org/3.15/whatsnew/3.15.html)에서는 High frequency statistical sampling profiler 즉 <b>고주파 통계 샘플링 프로파일러</b>로 소개되었다. 
 
+> <b>High frequency statistical sampling profiler(공식 문서 발췌) </b><br><br>
+A new statistical sampling profiler (Tachyon) has been added as profiling.sampling. This profiler enables low-overhead performance analysis of running Python processes without requiring code modification or process restart. <br><br>
+Unlike deterministic profilers (such as profiling.tracing) that instrument every function call, the sampling profiler periodically captures stack traces from running processes. This approach provides virtually zero overhead while achieving sampling rates of up to 1,000,000 Hz, making it the fastest sampling profiler available for Python (at the time of its contribution) and ideal for debugging performance issues in production environments. This capability is particularly valuable for debugging performance issues in production systems where traditional profiling approaches would be too intrusive.
+
+
 <br>
 
 기존에 사용되던 결정론적 프로파일러인 `profile`, `cProfile`과 달리 `profile.sample`는 실행되는 프로세스에서 주기적으로 모든 함수 호출의 스택 추적을 캡처한다. 
@@ -253,3 +258,36 @@ async def get_data_from_api(item_id: str) -> dict:
 <br><br><br>
 
 ## ✨ 샘플링 프로파일러 사용해 보기
+
+우선 Python 3.15를 설치해준다. 
+샘플링 프로파일러는 코드에 박아서 실행할 수도 있지만 보통 CLI에서 실행 중인 프로세스에 PID를 붙이는 방식으로 호출한다. 
+따라서 환경 변수까지 등록하고 `--version`으로 등록을 확인해주는 것이 좋다. 
+![](/assets/tech/python-sampling-profiler/image2.png) 
+
+<br>
+
+샘플링 프로파일러는 PID로 붙는다. 
+그렇다면 파이썬으로 개발된 프로세스 뿐만 아니라 모든 프로세스에 붙을 수 있지 않을까? 
+<b> 결론부터 말하자면 불가하다. </b>
+PID로 붙는 건 맞지만 파이썬 프로세스 전용이다.
+이게 무슨 얘기냐. 
+스택 트레이스를 캡처할 때 파이썬 내부 구조체를 직접 읽는다. 
+
+1. PID로 해당 프로세스 메모리 접근
+2. PyFrameObject 탐색 (파이썬 내부 프레임 구조체)
+3. 현재 실행 중인 .py 파일명, 함수명, 코드 라인 추출
+
+이러한 절차로 캡쳐되는데 파이썬이 아니면 PyFrameObject가 메모리에 없어 읽는 것이 불가하다. 
+
+<br>
+
+파이썬이 아닌 프로세스에 시도해보면 아래와 같이 스크립트를 못 찾아서 즉시 종료되었고 샘플링 2개를 캡쳐했지만 그마저도 유효하지 않은 데이터로 보인다.
+
+![](/assets/tech/python-sampling-profiler/image3.png) 
+
+<br>
+
+윈도우의 VTune, ETW나 리눅스의 perf, dtrace 등 프로세스 종류를 가리지 않는 범용 프로파일러는 OS 레벨의 도구이기 때문에 언어에 국한되지 않는다. 
+네이티브 스택 추적이라 파이썬이든 자바든 상관없지만, 반대로 .py 파일명, 함수명, 코드 라인 추출이 불가하다. 
+
+결국 트레이드 오프가 존재하지만 파이썬에 특화된 프로파일러는 3.15 버전에서 추가된 샘플링 프로파일러라고 생각된다. 

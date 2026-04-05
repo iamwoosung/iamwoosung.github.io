@@ -2,14 +2,17 @@
 layout: post
 title: 2025 FriendlyAI Seoul Meetup 회고
 description: >
-  2025 FriendlyAI Seoul Meetup에서 AI 산업의 현업 엔지니어 업무와 스토리에 대한 후기를 포스팅합니다. 
+  2025 FriendlyAI Seoul Meetup에서 AI 산업의 현업 엔지니어 업무와 스토리에 대한 후기를 포스팅합니다.
 sitemap: true
 hide_last_modified: true
+excerpt_separator: "<!--more-->"
 tags: [Meetup]
 ---
 
 * toc
 {:toc .large-only}
+
+<!--more-->
 
 <br><br><br><br><br>
 
